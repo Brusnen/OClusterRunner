@@ -1,0 +1,43 @@
+syntax='proto3';
+
+package ocluster;
+
+option go_package = "src/orunner";
+service OCluster {
+  rpc Health(HealthRequest) returns (HealthResponse);
+  rpc ChatCompletion(LLMMessage) returns (LLMMessage);
+  rpc FileUploader(stream FileChunkRequest) returns (stream FileChunkResponse);
+}
+
+message HealthResponse {
+  bool status = 1;
+}
+
+message HealthRequest {
+}
+
+message Chat {
+  string role = 1;
+  string message = 2;
+}
+
+message LLMMessage {
+  string options = 1;
+  string prompt = 2;
+  repeated Chat messages = 3;
+}
+
+message FileChunkRequest {
+  bytes chunk = 1;
+  uint64 filesize = 2;
+  string fileName = 3;
+}
+
+message FileChunkResponse {
+  bool status = 1;
+  float percent = 2;
+}
+
+
+
+
